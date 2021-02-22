@@ -10,7 +10,7 @@ defmodule Rp7pay.Numbers do
       result
       |> String.trim
       |> String.split(",")
-      |> Enum.map(fn number -> String.to_integer(number) end)
+      |> Stream.map(fn number -> String.to_integer(number) end)
       |> Enum.sum
 
     {:ok, %{result: result}}
