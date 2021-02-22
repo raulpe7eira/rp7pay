@@ -7,9 +7,9 @@ use Mix.Config
 # Run `mix help test` for more information.
 config :rp7pay, Rp7pay.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "sa",
   database: "rp7pay_test#{System.get_env("MIX_TEST_PARTITION")}",
-  hostname: "localhost",
+  hostname: "192.168.99.100",
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,

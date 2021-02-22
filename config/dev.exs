@@ -3,9 +3,9 @@ use Mix.Config
 # Configure your database
 config :rp7pay, Rp7pay.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "sa",
   database: "rp7pay_dev",
-  hostname: "localhost",
+  hostname: "192.168.99.100",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
