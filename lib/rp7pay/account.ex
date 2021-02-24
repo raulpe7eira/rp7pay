@@ -16,8 +16,8 @@ defmodule Rp7pay.Account do
     timestamps()
   end
 
-  def changeset(params) do
-    %__MODULE__{}
+  def changeset(account \\ %__MODULE__{}, params) do
+    account
     |> cast(params, @required_params)
     |> validate_required(@required_params)
     |> check_constraint(:balance, name: :balance_must_be_positive_or_zero)
