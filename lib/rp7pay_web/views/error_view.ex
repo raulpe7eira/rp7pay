@@ -16,7 +16,7 @@ defmodule Rp7payWeb.ErrorView do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end
 
-  def render("400.json", %{changeset: %Changeset{} = changeset}) do
+  def render("400.json", %{result: %Changeset{} = changeset}) do
     %{errors: %{detail: translate_erros(changeset)}}
   end
 
