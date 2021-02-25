@@ -11,7 +11,7 @@ defmodule Rp7pay.Accounts.Withdraw do
 
   defp get_account(repo, id) do
     case repo.get(Account, id) do
-      nil -> {:error, "Account, not found!"}
+      nil -> {:error, "Account not found!"}
       account -> {:ok, account}
     end
   end
@@ -24,7 +24,7 @@ defmodule Rp7pay.Accounts.Withdraw do
 
   defp sub_value(%Account{balance: balance} = account, value) do
     case Decimal.cast(value) do
-      :error -> {:error, "Invalid deposit value!"}
+      :error -> {:error, "Invalid withdraw value!"}
       {:ok, value} -> {:ok, %{account: account, params: %{balance: Decimal.sub(balance, value)}}}
     end
   end
