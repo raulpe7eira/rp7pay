@@ -1,13 +1,18 @@
 defmodule Rp7pay.Accounts.Operation do
   alias Ecto.Multi
-  alias Rp7pay.{Account, Repo}
+  alias Rp7pay.Account
 
   def call(operation, %{"id" => id, "value" => value}) do
+    operation_account = operation_account(operation)
     Multi.new
-    |> Multi.run(:get_account, fn repo, _changes -> get_account(repo, id) end)
-    |> Multi.run(:update_balance, fn repo, %{get_account: account} -> update_balance(repo, operation, account, value) end)
-    |> run_transaction
+    |> Multi.run(operation_account, fn repo, _changes -> get_account(repo, id) end)
+    |> Multi.run(operation, fn repo, changes->
+      account = Map.get(changes, operation_account)
+      update_balance(repo, operation, account, value)
+    end)
   end
+
+  defp operation_account(operation), do: "#{Atom.to_string(operation)}_account" |> String.to_atom
 
   defp get_account(repo, id) do
     case repo.get(Account, id) do
@@ -35,12 +40,5 @@ defmodule Rp7pay.Accounts.Operation do
     account
     |> Account.changeset(params)
     |> repo.update
-  end
-
-  defp run_transaction(multi) do
-    case Repo.transaction(multi) do
-      {:error, _operation, reason, _changes} -> {:error, reason}
-      {:ok, %{update_balance: account}} -> {:ok, account}
-    end
   end
 end
