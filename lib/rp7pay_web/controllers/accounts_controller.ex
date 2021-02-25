@@ -1,7 +1,7 @@
 defmodule Rp7payWeb.AccountsController do
   use Rp7payWeb, :controller
 
-  alias Rp7pay.Account
+  alias Rp7pay.{Account, Transaction}
 
   action_fallback Rp7payWeb.FallbackController
 
@@ -18,6 +18,14 @@ defmodule Rp7payWeb.AccountsController do
       conn
       |> put_status(:ok)
       |> render("update.json", account: account)
+    end
+  end
+
+  def transaction(conn, params) do
+    with {:ok, %Transaction{} = transaction} <- Rp7pay.transaction_account(params) do
+      conn
+      |> put_status(:ok)
+      |> render("transaction.json", transaction: transaction)
     end
   end
 end
