@@ -22,7 +22,8 @@ defmodule Rp7payWeb.AccountsController do
   end
 
   def transaction(conn, params) do
-    with {:ok, %Transaction{} = transaction} <- Rp7pay.transaction_account(params) do
+    task = Task.async(fn -> Rp7pay.transaction_account(params) end)
+    with {:ok, %Transaction{} = transaction} <- Task.await(task) do
       conn
       |> put_status(:ok)
       |> render("transaction.json", transaction: transaction)
