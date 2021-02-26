@@ -29,8 +29,8 @@ defmodule Rp7pay.Accounts.Operation do
 
   defp do_operation(%Account{balance: balance} = account, operation, value) do
     case Decimal.cast(value) do
-      :error -> {:error, "Invalid #{if operation == :deposit, do: 'deposit', else: 'withdraw'} value!"}
-      {:ok, value} when operation == :deposit-> {:ok, %{account: account, params: %{balance: Decimal.add(balance, value)}}}
+      :error -> {:error, "Invalid #{operation} value!"}
+      {:ok, value} when operation == :deposit -> {:ok, %{account: account, params: %{balance: Decimal.add(balance, value)}}}
       {:ok, value} when operation == :withdraw -> {:ok, %{account: account, params: %{balance: Decimal.sub(balance, value)}}}
     end
   end
