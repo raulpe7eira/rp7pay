@@ -23,6 +23,10 @@ config :rp7pay, Rp7pay.Repo,
   migration_primary_key: [type: :binary_id],
   migration_foreign_key: [type: :binary_id]
 
+config :rp7pay, :basic_auth,
+  username: "banana",
+  password: "1234"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
