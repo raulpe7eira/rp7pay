@@ -1,5 +1,5 @@
 defmodule Rp7pay.NumbersTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias Rp7pay.Numbers
 
