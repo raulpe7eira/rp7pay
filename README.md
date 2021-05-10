@@ -4,22 +4,81 @@ This repository is the code corresponding to the [nlw#4 - trilha elixir](https:/
 
 > The project simulates a banking API that allows to withdraw, deposit or transfer money between two accounts and uses Basic Auth as authentication in some resources.
 
+## Previous installations
+
+**Database**, we recommends install [PostgreSQL](https://www.postgresql.org/) with [Docker](https://hub.docker.com/_/postgres). After that, sets connection configuration at:
+
+- `config/dev.exs`
+- `config/test.exs`
+
+## Gets dependencies, setups database, tests, coverages, reports and starts application
+
+```bash
+cd rp7pay
+mix deps.get
+mix ecto.setup
+mix test
+mix test --cover
+mix coveralls.html
+mix phx.server
+```
+
 ## How to use?
 
-To start your Phoenix server:
+```bash
+# welcomes (
+#   replaces curly braces:
+#     {filename} : path for CSV file w/ the following sintax - `1,2,3,4,8,9,10`
+# )
+curl -X GET 'http://localhost:4000/api/{filename}'
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server`
+# creates user
+curl -X POST 'http://localhost:4000/api/users' \
+-H 'Content-Type: application/json' \
+-d '{
+    "name": "Raul Pereira",
+    "nickname": "raulpe7eira",
+    "email": "mail@raulpe7eira.com",
+    "age": 40,
+    "password": "12345abcd"
+}'
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+# does deposit (
+#   replaces curly braces:
+#     {id} : account identifier
+#     {basic_auth} : username and password credentials
+# )
+curl -X POST 'http://localhost:4000/api/accounts/{id}/deposit' \
+-H 'Authorization: {basic_auth}' \
+-H 'Content-Type: application/json' \
+-d '{
+    "value": 50.00
+}'
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+# does withdraw (
+#   replaces curly braces:
+#     {id} : account identifier
+#     {basic_auth} : username and password credentials
+# )
+curl -X POST 'http://localhost:4000/api/accounts/{id}/withdraw' \
+-H 'Authorization: {basic_auth}' \
+-H 'Content-Type: application/json' \
+-d '{
+    "value": 1.00
+}'
 
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+# does transaction (
+#   replaces curly braces:
+#     {from} : from account identifier
+#     {to} : to account identifier
+#     {basic_auth} : username and password credentials
+# )
+curl -X POST 'http://localhost:4000/api/accounts/transaction' \
+-H 'Authorization: {basic_auth}' \
+-H 'Content-Type: application/json' \
+-d '{
+    "from": "{from}",
+    "to": "{to}",
+    "value": 1.00
+}'
+```
