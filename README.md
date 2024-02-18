@@ -1,6 +1,6 @@
 # RP7Pay API
 
-This repository is the code corresponding to the [nlw#4 - trilha elixir](https://nextlevelweek.com/) lab.
+This repository is the code corresponding to the [nlw#4 - trilha elixir](https://nextlevelweek.com/) lab by Rafael Camarda.
 
 > The project simulates a banking API that allows to withdraw, deposit or transfer money between two accounts and uses Basic Auth as authentication in some resources.
 
